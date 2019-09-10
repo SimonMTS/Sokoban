@@ -1,17 +1,18 @@
-﻿using Sokoban.Controllers;
+﻿using Sokoban.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sokoban
+namespace Sokoban.Controllers
 {
-    class Program
+    class Controller
     {
-        static void Main(string[] args)
+        public Controller()
         {
-            new Controller();
+            Maze level = new Maze(10, 10);
+
         }
     }
 }
