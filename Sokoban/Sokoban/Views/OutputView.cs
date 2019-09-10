@@ -19,6 +19,11 @@ namespace Sokoban.Views
             {
                 for (int y = 0; y < map.y; y++)
                 {
+                    if (map.nodes[x, y] == null)
+                    {
+                        continue;
+                    }
+
                     if (map.nodes[x, y].GetType() == typeof(WallNode))
                     {
                         Console.Write("█");
@@ -55,6 +60,10 @@ namespace Sokoban.Views
                                 Console.Write("x");
                             }
                         }
+                    }
+                    else
+                    {
+                        Console.Write(" ");
                     }
                 }
                 Console.Write("\n");

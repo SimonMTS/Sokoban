@@ -67,6 +67,7 @@ namespace Sokoban.Controllers
                             truckY = y;
                             break;
                         default:
+                            nodes[x, y] = new Node(x, y);
                             break;
                     }
 
@@ -80,6 +81,7 @@ namespace Sokoban.Controllers
                 }
                 reader.Close();
                 reader.Dispose();
+                Console.ReadKey();
             }
 
             Map map = new Map
