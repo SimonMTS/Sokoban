@@ -8,21 +8,23 @@ namespace Sokoban
 {
     class Node
     {
+        public const int INVALID = -1;
+
         public const int NORTH = 0;
         public const int EAST = 1;
         public const int SOUTH = 2;
         public const int WEST = 3;
 
-        private Node[] neighbours = new Node[4];
+        public bool ContainsTruck = false;
+        public bool ContainsCrate = false;
 
-        getNeighbour( int side )
+        public int x;
+        public int y;
+
+        public Node(int _x, int _y)
         {
-
-        }
-
-        public Node()
-        {
-
+            x = _x;
+            y = _y;
         }
     }
 }

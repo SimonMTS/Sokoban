@@ -12,6 +12,8 @@ namespace Sokoban
         static void Main(string[] args)
         {
             new Controller();
+
+            Console.ReadKey();
         }
     }
 }

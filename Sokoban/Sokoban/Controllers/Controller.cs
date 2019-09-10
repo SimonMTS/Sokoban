@@ -1,4 +1,5 @@
 ﻿using Sokoban.Models;
+using Sokoban.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,18 @@ namespace Sokoban.Controllers
     {
         public Controller()
         {
-            Maze level = new Maze(10, 10);
+            Maze level = new Maze();
 
+            while (true)
+            {
+                OutputView.draw(level.Map);
+
+                int action = InputView.AwaitAction();
+                if (action != Node.INVALID)
+                {
+                    level.ApplyAction(action);
+                }
+            }
         }
     }
 }
