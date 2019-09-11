@@ -12,9 +12,10 @@ namespace Sokoban.Controllers
     {
         public Controller()
         {
-            Maze level = new Maze();
+            Maze level = new Maze(1);
 
-            while (true)
+            bool won = false;
+            while (!won)
             {
                 OutputView.draw(level.Map);
 
@@ -22,8 +23,14 @@ namespace Sokoban.Controllers
                 if (action != Node.INVALID)
                 {
                     level.ApplyAction(action);
+
+                    won = level.HasWon();
                 }
             }
+
+            Console.Clear();
+            Console.WriteLine("You did it, you stopped racism!");
+            Console.ReadLine();
         }
     }
 }

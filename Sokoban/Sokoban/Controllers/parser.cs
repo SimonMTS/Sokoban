@@ -23,7 +23,7 @@ namespace Sokoban.Controllers
             public List<int[]> destinations;
         }
 
-        public static Map Parse()
+        public static Map Parse(string fileName)
         {
             int _x = 100, _y = 100;
 
@@ -37,11 +37,11 @@ namespace Sokoban.Controllers
             int truckY = 0;
             {
                 StreamReader reader;
-                reader = new StreamReader("../../Doolhof/doolhof1.txt");
+                reader = new StreamReader(fileName);
                 while (!reader.EndOfStream)
                 {
                     char ch = (char)reader.Read();
-                    Console.Write(ch);
+                    //Console.Write(ch);
 
                     switch (ch)
                     {
@@ -76,12 +76,12 @@ namespace Sokoban.Controllers
                     {
                         x++;
                         y = 0;
-                        Console.WriteLine("");
+                        //Console.WriteLine("");
                     }
                 }
                 reader.Close();
                 reader.Dispose();
-                Console.ReadKey();
+                //Console.ReadKey();
             }
 
             Map map = new Map

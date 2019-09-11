@@ -13,48 +13,14 @@ namespace Sokoban.Models
     {
         public Map Map;
 
-        public Maze()
+        public Maze(int level)
         {
-            // init Map.nodes
-            Map = Parser.Parse();
-
-            // set node neighbours
-            for (int x = 0; x < Map.x; x++)
-            {
-                for (int y = 0; y < Map.y; y++)
-                {
-                    if (y-1 >= 0 && x + 1 < Map.x && y + 1 < Map.y && x - 1 >= 0)
-                    {
-                        Node[] neighbours = {
-                            Map.nodes[x - 1, y],
-                            Map.nodes[x, y + 1],
-                            Map.nodes[x + 1, y],
-                            Map.nodes[x, y - 1]
-                        };
-                    }
-                }
-            }
+            Map = Parser.Parse("../../Doolhof/doolhof"+level+".txt");
         }
 
         public void ApplyAction(int direction)
         {
-            Node neighbour = null;
-            if (direction == Node.NORTH)
-            {
-                neighbour = Map.nodes[Map.truckX-1, Map.truckY];
-            }
-            else if (direction == Node.EAST)
-            {
-                neighbour = Map.nodes[Map.truckX, Map.truckY+1];
-            }
-            else if (direction == Node.SOUTH)
-            {
-                neighbour = Map.nodes[Map.truckX+1, Map.truckY];
-            }
-            else if (direction == Node.WEST)
-            {
-                neighbour = Map.nodes[Map.truckX, Map.truckY-1];
-            }
+            Node neighbour = getNeighbour(direction, Map.nodes[Map.truckX, Map.truckY]);
 
             bool neighbourIsCrate = neighbour.ContainsCrate;
 
@@ -68,23 +34,7 @@ namespace Sokoban.Models
             }
             else if (neighbour is FloorNode && neighbourIsCrate)
             {
-                Node neighbour2 = null;
-                if (direction == Node.NORTH)
-                {
-                    neighbour2 = Map.nodes[Map.truckX - 2, Map.truckY];
-                }
-                else if (direction == Node.EAST)
-                {
-                    neighbour2 = Map.nodes[Map.truckX, Map.truckY + 2];
-                }
-                else if (direction == Node.SOUTH)
-                {
-                    neighbour2 = Map.nodes[Map.truckX + 2, Map.truckY];
-                }
-                else if (direction == Node.WEST)
-                {
-                    neighbour2 = Map.nodes[Map.truckX, Map.truckY - 2];
-                }
+                Node neighbour2 = getNeighbour(direction, Map.nodes[neighbour.x, neighbour.y]);
 
                 if (neighbour2 is FloorNode && !neighbour2.ContainsCrate)
                 {
@@ -97,23 +47,42 @@ namespace Sokoban.Models
                     Map.truckY = neighbour.y;
                 }
             }
-
-            HasWon();
         }
 
-        public void HasWon()
+        public bool HasWon()
         {
             foreach (int[] dest in Map.destinations)
             {
                 if (!Map.nodes[dest[0], dest[1]].ContainsCrate)
                 {
-                    return;
+                    return false;
                 }
             }
 
-            Console.Clear();
-            Console.WriteLine("You did it, you stopped racism!");
-            Console.ReadLine();
+            return true;
+        }
+
+        private Node getNeighbour(int dir, Node me)
+        {
+            Node neighbour = null;
+            if (dir == Node.NORTH)
+            {
+                neighbour = Map.nodes[me.x-1, me.y];
+            }
+            else if (dir == Node.EAST)
+            {
+                neighbour = Map.nodes[me.x, me.y+1];
+            }
+            else if (dir == Node.SOUTH)
+            {
+                neighbour = Map.nodes[me.x+1, me.y];
+            }
+            else if (dir == Node.WEST)
+            {
+                neighbour = Map.nodes[me.x, me.y-1];
+            }
+
+            return neighbour;
         }
     }
 }
