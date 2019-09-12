@@ -1,99 +1,109 @@
-﻿using Sokoban.Models;
-using Sokoban.Models.Nodes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Sokoban.Models;
 
 namespace Sokoban.Controllers
 {
     class Parser
     {
-        public struct Map
+        private const string mazeFileLocation = "../../Doolhof/doolhof";
+
+        public static Maze Parse(int level)
         {
-            public Node[,] nodes;
-            public int x;
-            public int y;
-
-            public int truckX;
-            public int truckY;
-
-            public List<int[]> destinations;
-        }
-
-        public static Map Parse(string fileName)
-        {
-            int _x = 100, _y = 100;
-
-            Node[,] nodes = new Node[_x, _y];
+            List<List<Node>> nodesList = new List<List<Node>>();
             List<int[]> destinations = new List<int[]>();
-
 
             int x = 0;
             int y = 0;
+
             int truckX = 0;
             int truckY = 0;
+
             {
+                List<Node> nodesRow = new List<Node>();
                 StreamReader reader;
-                reader = new StreamReader(fileName);
+                reader = new StreamReader(mazeFileLocation + level + ".txt");
+
                 while (!reader.EndOfStream)
                 {
                     char ch = (char)reader.Read();
-                    //Console.Write(ch);
-
                     switch (ch)
                     {
                         case '#':
-                            nodes[x, y] = new WallNode(x, y);
+                            nodesRow.Add(new Node(x, y)
+                            {
+                                Type = Node.NodeType.Wall
+                            });
                             break;
                         case '.':
-                            nodes[x, y] = new FloorNode(x, y);
+                            nodesRow.Add(new Node(x, y)
+                            {
+                                Type = Node.NodeType.Floor
+                            });
                             break;
                         case 'o':
-                            nodes[x, y] = new FloorNode(x, y);
-                            nodes[x, y].ContainsCrate = true;
+                            nodesRow.Add(new Node(x, y)
+                            {
+                                Type = Node.NodeType.Floor,
+                                ContainsCrate = true
+                            });
                             break;
                         case 'x':
-                            nodes[x, y] = new DestinationNode(x, y);
+                            nodesRow.Add(new Node(x, y)
+                            {
+                                Type = Node.NodeType.Destination
+                            });
                             destinations.Add(new int[2] { x, y });
                             break;
                         case '@':
-                            nodes[x, y] = new FloorNode(x, y);
-                            nodes[x, y].ContainsTruck = true;
+                            nodesRow.Add(new Node(x, y)
+                            {
+                                Type = Node.NodeType.Floor,
+                                ContainsTruck = true
+                            });
 
                             truckX = x;
                             truckY = y;
                             break;
                         default:
-                            nodes[x, y] = new Node(x, y);
+                            nodesRow.Add(new Node(x, y));
                             break;
                     }
 
                     y++;
                     if (ch.Equals('\n'))
                     {
+                        nodesList.Add(nodesRow);
+                        nodesRow = new List<Node>();
+
                         x++;
                         y = 0;
-                        //Console.WriteLine("");
                     }
                 }
+                nodesList.Add(nodesRow); x++;
+
                 reader.Close();
                 reader.Dispose();
-                //Console.ReadKey();
             }
 
-            Map map = new Map
+            Maze map = new Maze
             {
-                x = x+1,
-                y = y,
-                nodes = nodes,
+                mapNumber = level,
 
-                truckX = truckX,
-                truckY = truckY,
+                nodes = nodesList.Select(l => l.ToArray()).ToArray(),
+                Dimensions = new Dictionary<string, int>() {
+                    { "x", x },
+                    { "y", y },
+                },
 
-                destinations = destinations
+                Truck = new Dictionary<string, int>() {
+                    { "x", truckX },
+                    { "y", truckY },
+                },
+
+                destinations = destinations.ToArray()
             };
 
             return map;

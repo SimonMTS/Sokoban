@@ -1,88 +1,30 @@
-﻿using Sokoban.Controllers;
-using Sokoban.Models.Nodes;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Sokoban.Controllers.Parser;
 
 namespace Sokoban.Models
 {
-    class Maze
+    struct Maze
     {
-        public Map Map;
+        public int mapNumber;
 
-        public Maze(int level)
+        public Node[][] nodes;
+        public Dictionary<string, int> Dimensions;
+
+        public Dictionary<string, int> Truck;
+        public Node TruckNode()
         {
-            Map = Parser.Parse("../../Doolhof/doolhof"+level+".txt");
+            return this.nodes[this.Truck["x"]][this.Truck["y"]];
         }
 
-        public void ApplyAction(int direction)
+        public void TruckNode(int x, int y)
         {
-            Node neighbour = getNeighbour(direction, Map.nodes[Map.truckX, Map.truckY]);
+            this.nodes[this.Truck["x"]][this.Truck["y"]].ContainsTruck = false;
 
-            bool neighbourIsCrate = neighbour.ContainsCrate;
-
-            if (neighbour is FloorNode && !neighbourIsCrate)
-            {
-                neighbour.ContainsTruck = true;
-
-                Map.nodes[Map.truckX, Map.truckY].ContainsTruck = false;
-                Map.truckX = neighbour.x;
-                Map.truckY = neighbour.y;
-            }
-            else if (neighbour is FloorNode && neighbourIsCrate)
-            {
-                Node neighbour2 = getNeighbour(direction, Map.nodes[neighbour.x, neighbour.y]);
-
-                if (neighbour2 is FloorNode && !neighbour2.ContainsCrate)
-                {
-                    neighbour.ContainsTruck = true;
-                    neighbour.ContainsCrate = false;
-                    neighbour2.ContainsCrate = true;
-
-                    Map.nodes[Map.truckX, Map.truckY].ContainsTruck = false;
-                    Map.truckX = neighbour.x;
-                    Map.truckY = neighbour.y;
-                }
-            }
+            this.nodes[x][y].ContainsTruck = true;
+            this.Truck["x"] = x;
+            this.Truck["y"] = y;
         }
 
-        public bool HasWon()
-        {
-            foreach (int[] dest in Map.destinations)
-            {
-                if (!Map.nodes[dest[0], dest[1]].ContainsCrate)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private Node getNeighbour(int dir, Node me)
-        {
-            Node neighbour = null;
-            if (dir == Node.NORTH)
-            {
-                neighbour = Map.nodes[me.x-1, me.y];
-            }
-            else if (dir == Node.EAST)
-            {
-                neighbour = Map.nodes[me.x, me.y+1];
-            }
-            else if (dir == Node.SOUTH)
-            {
-                neighbour = Map.nodes[me.x+1, me.y];
-            }
-            else if (dir == Node.WEST)
-            {
-                neighbour = Map.nodes[me.x, me.y-1];
-            }
-
-            return neighbour;
-        }
+        public int[][] destinations;
     }
 }

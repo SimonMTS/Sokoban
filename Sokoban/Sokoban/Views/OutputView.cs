@@ -1,40 +1,30 @@
 ﻿using Sokoban.Models;
-using Sokoban.Models.Nodes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Sokoban.Controllers.Parser;
 
 namespace Sokoban.Views
 {
     class OutputView
     {
-        public static void draw(Map map)
+        public static void DrawLevel(Maze map, bool won)
         {
             Console.Clear();
+            Console.Write("┌──────────┐\n| Sokoban  |\n└──────────┘\n─────────────────────────────────────────────────────────────────────────\n");
 
-            for (int x = 0; x < map.x; x++)
+            for (int x = 0; x < map.Dimensions["x"]; x++)
             {
-                for (int y = 0; y < map.y; y++)
+                for (int y = 0; y < map.Dimensions["y"]; y++)
                 {
-                    if (map.nodes[x, y] == null)
-                    {
-                        continue;
-                    }
-
-                    if (map.nodes[x, y].GetType() == typeof(WallNode))
+                    if (map.nodes[x][y].Type == Node.NodeType.Wall)
                     {
                         Console.Write("█");
                     }
-                    else if (map.nodes[x, y].GetType() == typeof(FloorNode))
+                    else if (map.nodes[x][y].Type == Node.NodeType.Floor)
                     {
-                        if (map.nodes[x, y].ContainsTruck)
+                        if (map.nodes[x][y].ContainsTruck)
                         {
                             Console.Write("@");
                         }
-                        else if (map.nodes[x, y].ContainsCrate)
+                        else if (map.nodes[x][y].ContainsCrate)
                         {
                             Console.Write("o");
                         }
@@ -43,15 +33,15 @@ namespace Sokoban.Views
                             Console.Write("·");
                         }
                     }
-                    else if (map.nodes[x, y].GetType() == typeof(DestinationNode))
+                    else if (map.nodes[x][y].Type == Node.NodeType.Destination)
                     {
-                        if (map.nodes[x, y].ContainsTruck)
+                        if (map.nodes[x][y].ContainsTruck)
                         {
                             Console.Write("@");
                         }
                         else
                         {
-                            if (map.nodes[x, y].ContainsCrate)
+                            if (map.nodes[x][y].ContainsCrate)
                             {
                                 Console.Write("0");
                             }
@@ -68,6 +58,22 @@ namespace Sokoban.Views
                 }
                 Console.Write("\n");
             }
+
+            Console.Write("─────────────────────────────────────────────────────────────────────────\n");
+
+            if (!won)
+            {
+                Console.Write("> gebruik pijljestoetsen (s = stop, r = reset)\n");
+            } else
+            {
+                Console.WriteLine("\n=== HOERA OPGELOST ===\n> press key to continue");
+            }
+        }
+
+        public static void DrawMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("┌────────────────────────────────────────────────────┐\n| Welkom bij Sokoban                                 |\n|                                                    |\n| betekenis van de symbolen   |   doel van het spel  |\n|                             |                      |\n| spatie : outerspace         |   duw met de truck   |\n|      █ : muur               |   de krat(ten)       |\n|      · : vloer              |   naar de bestemming |\n|      O : krat               |                      |\n|      0 : krat op bestemming |                      |\n|      x : bestemming         |                      |\n|      @ : truck              |                      |\n└────────────────────────────────────────────────────┘\n> Kies een doolhof (1 - 4), s = stop");
         }
     }
 }

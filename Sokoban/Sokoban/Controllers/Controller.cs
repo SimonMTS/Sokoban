@@ -1,36 +1,69 @@
 ﻿using Sokoban.Models;
 using Sokoban.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sokoban.Controllers
 {
     class Controller
     {
+        public enum GameAction {
+            Stop = 10,
+            Reset = 11,
+            Invalid = -1,
+            MoveNorth = 20, MoveEast = 21, MoveSouth = 22, MoveWest = 23,
+            Level1 = 1, Level2 = 2, Level3 = 3, Level4 = 4
+        };
+
+
         public Controller()
         {
-            Maze level = new Maze(1);
+            while (true)
+            {
+                OutputView.DrawMenu();
+                GameAction action = InputView.AwaitActionMenu();
+
+                if ( action == GameAction.Stop)
+                {
+                    break;
+                }
+                else if (action != GameAction.Invalid)
+                {
+                    StartLevel((int)action);
+                }
+            }
+        }
+
+        private void StartLevel(int levelNumber)
+        {
+            Game level = new Game(levelNumber);
 
             bool won = false;
             while (!won)
             {
-                OutputView.draw(level.Map);
+                OutputView.DrawLevel(level.Map, false);
 
-                int action = InputView.AwaitAction();
-                if (action != Node.INVALID)
+
+                GameAction action = InputView.AwaitActionGame();
+                if (action == GameAction.Reset)
                 {
-                    level.ApplyAction(action);
+                    level = new Game(levelNumber);
+                }
+                else if (action == GameAction.Stop)
+                {
+                    break;
+                }
+                else if (action != GameAction.Invalid)
+                {
+                    level.Move(action);
 
                     won = level.HasWon();
                 }
             }
 
-            Console.Clear();
-            Console.WriteLine("You did it, you stopped racism!");
-            Console.ReadLine();
+            if (won)
+            {
+                OutputView.DrawLevel(level.Map, true);
+                InputView.AwaitAnyKey();
+            }
         }
     }
 }
