@@ -28,7 +28,24 @@ namespace Sokoban.Models
             }
         }
 
-        public void Move(GameAction direction)
+        public void ApplyAction(GameAction action)
+        {
+            if (action == GameAction.Undo)
+            {
+                if (Map.PrevMaze != null)
+                {
+                    //Map = Map.PrevMaze; // doesnt work, because this is a reference
+                }
+            }
+            else
+            {
+                //Map.PrevMaze = Map;
+
+                Move(action);
+            }
+        }
+
+        private void Move(GameAction direction)
         {
             Node neighbour = Map.TruckNode().getNeighbour(direction);
 

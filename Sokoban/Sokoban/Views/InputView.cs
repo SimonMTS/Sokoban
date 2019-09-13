@@ -30,6 +30,9 @@ namespace Sokoban.Views
                 case ConsoleKey.R:
                     action = GameAction.Reset;
                     break;
+                case ConsoleKey.U:
+                    action = GameAction.Undo;
+                    break;
                 default:
                     action = GameAction.Invalid;
                     break;

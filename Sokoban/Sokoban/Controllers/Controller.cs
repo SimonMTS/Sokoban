@@ -1,4 +1,5 @@
-﻿using Sokoban.Models;
+﻿using System;
+using Sokoban.Models;
 using Sokoban.Views;
 
 namespace Sokoban.Controllers
@@ -8,6 +9,7 @@ namespace Sokoban.Controllers
         public enum GameAction {
             Stop = 10,
             Reset = 11,
+            Undo = 12,
             Invalid = -1,
             MoveNorth = 20, MoveEast = 21, MoveSouth = 22, MoveWest = 23,
             Level1 = 1, Level2 = 2, Level3 = 3, Level4 = 4
@@ -39,8 +41,13 @@ namespace Sokoban.Controllers
             bool won = false;
             while (!won)
             {
+                if ( level.Map.PrevMaze != null )
+                {
+                    OutputView.DrawLevel(level.Map.PrevMaze, false);
+                    Console.WriteLine("PREV");
+                    Console.ReadKey();
+                }
                 OutputView.DrawLevel(level.Map, false);
-
 
                 GameAction action = InputView.AwaitActionGame();
                 if (action == GameAction.Reset)
@@ -53,7 +60,7 @@ namespace Sokoban.Controllers
                 }
                 else if (action != GameAction.Invalid)
                 {
-                    level.Move(action);
+                    level.ApplyAction(action);
 
                     won = level.HasWon();
                 }

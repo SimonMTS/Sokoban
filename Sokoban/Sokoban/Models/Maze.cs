@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Sokoban.Models
 {
-    struct Maze
+    class Maze
     {
         public int mapNumber;
 
@@ -26,5 +26,7 @@ namespace Sokoban.Models
         }
 
         public int[][] destinations;
+
+        public Maze PrevMaze;
     }
 }
