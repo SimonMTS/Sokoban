@@ -63,7 +63,7 @@ namespace Sokoban.Views
 
             if (!won)
             {
-                Console.Write("> gebruik pijljestoetsen (s = stop, r = reset)\n");
+                Console.Write("> gebruik pijljestoetsen (s = stop, r = reset, u = undo)\n");
             } else
             {
                 Console.WriteLine("\n=== HOERA OPGELOST ===\n> press key to continue");

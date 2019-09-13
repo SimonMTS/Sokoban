@@ -41,20 +41,10 @@ namespace Sokoban.Controllers
             bool won = false;
             while (!won)
             {
-                if ( level.Map.PrevMaze != null )
-                {
-                    OutputView.DrawLevel(level.Map.PrevMaze, false);
-                    Console.WriteLine("PREV");
-                    Console.ReadKey();
-                }
                 OutputView.DrawLevel(level.Map, false);
-
                 GameAction action = InputView.AwaitActionGame();
-                if (action == GameAction.Reset)
-                {
-                    level = new Game(levelNumber);
-                }
-                else if (action == GameAction.Stop)
+
+                if (action == GameAction.Stop)
                 {
                     break;
                 }

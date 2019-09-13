@@ -64,7 +64,6 @@ namespace Sokoban.Views
                     action = GameAction.Level4;
                     break;
                 default:
-                    Console.WriteLine("inval");
                     action = GameAction.Invalid;
                     break;
             }

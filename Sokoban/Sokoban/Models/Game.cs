@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Sokoban.Controllers;
 using static Sokoban.Controllers.Controller;
 namespace Sokoban.Models
@@ -6,6 +7,7 @@ namespace Sokoban.Models
     class Game
     {
         public Maze Map;
+        public List<MazeState> MapHistory = new List<MazeState>();
 
         public Game(int level)
         {
@@ -26,22 +28,34 @@ namespace Sokoban.Models
                     }
                 }
             }
+
+            MapHistory.Add(Map.GetState());
         }
 
         public void ApplyAction(GameAction action)
         {
-            if (action == GameAction.Undo)
+            if (action == GameAction.Reset)
             {
-                if (Map.PrevMaze != null)
+                Map.SetFromState(MapHistory[0]);
+                if (MapHistory.Count > 1)
                 {
-                    //Map = Map.PrevMaze; // doesnt work, because this is a reference
+                    MapHistory.RemoveRange(1, MapHistory.Count - 1);
+                }
+            }
+            else if (action == GameAction.Undo)
+            {
+                if (MapHistory.Count > 1)
+                {
+                    MapHistory.RemoveAt(MapHistory.Count - 1);
+
+                    Map.SetFromState(MapHistory[MapHistory.Count - 1]);
                 }
             }
             else
             {
-                //Map.PrevMaze = Map;
-
                 Move(action);
+
+                MapHistory.Add(Map.GetState());
             }
         }
 
@@ -55,8 +69,6 @@ namespace Sokoban.Models
             }
             else if (neighbour.Type != Node.NodeType.Wall)
             {
-                neighbour.ContainsTruck = true;
-
                 Map.TruckNode(neighbour.x, neighbour.y);
             }
         }
@@ -67,7 +79,6 @@ namespace Sokoban.Models
 
             if (neighbour2.Type != Node.NodeType.Wall && !neighbour2.ContainsCrate)
             {
-                neighbour.ContainsTruck = true;
                 neighbour.ContainsCrate = false;
                 neighbour2.ContainsCrate = true;
 
