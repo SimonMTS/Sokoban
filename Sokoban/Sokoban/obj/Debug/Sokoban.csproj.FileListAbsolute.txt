@@ -1,7 +1,0 @@
-C:\Users\simon\source\repos\sokoban\Sokoban\Sokoban\bin\Debug\Sokoban.exe.config
-C:\Users\simon\source\repos\sokoban\Sokoban\Sokoban\bin\Debug\Sokoban.exe
-C:\Users\simon\source\repos\sokoban\Sokoban\Sokoban\bin\Debug\Sokoban.pdb
-C:\Users\simon\source\repos\sokoban\Sokoban\Sokoban\obj\Debug\Sokoban.csprojAssemblyReference.cache
-C:\Users\simon\source\repos\sokoban\Sokoban\Sokoban\obj\Debug\Sokoban.csproj.CoreCompileInputs.cache
-C:\Users\simon\source\repos\sokoban\Sokoban\Sokoban\obj\Debug\Sokoban.exe
-C:\Users\simon\source\repos\sokoban\Sokoban\Sokoban\obj\Debug\Sokoban.pdb
