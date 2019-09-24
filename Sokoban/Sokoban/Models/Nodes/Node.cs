@@ -2,16 +2,15 @@
 
 namespace Sokoban.Models
 {
-    class Node
+    abstract class Node
     {
-        public enum NodeType { Wall, Floor, Destination };
-        public NodeType Type;
-
-        public bool ContainsTruck = false;
-        public bool ContainsCrate = false;
-
+        public virtual bool Walkable { get { return false; } }
+        
         public int x;
         public int y;
+
+        public virtual bool ContainsTruck { get; set; } = false;
+        public virtual bool ContainsCrate { get; set; } = false;
 
         private Node[] neighbours = new Node[4];
 

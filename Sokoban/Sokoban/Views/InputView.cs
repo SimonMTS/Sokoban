@@ -63,6 +63,12 @@ namespace Sokoban.Views
                 case ConsoleKey.D4:
                     action = GameAction.Level4;
                     break;
+                case ConsoleKey.D5:
+                    action = GameAction.Level5;
+                    break;
+                case ConsoleKey.D6:
+                    action = GameAction.Level6;
+                    break;
                 default:
                     action = GameAction.Invalid;
                     break;

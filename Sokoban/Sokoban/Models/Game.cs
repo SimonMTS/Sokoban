@@ -63,11 +63,11 @@ namespace Sokoban.Models
         {
             Node neighbour = Map.TruckNode().getNeighbour(direction);
 
-            if (neighbour.Type != Node.NodeType.Wall && neighbour.ContainsCrate)
+            if (neighbour.Walkable && neighbour.ContainsCrate)
             {
                 MoveWithCrate(direction, neighbour);
             }
-            else if (neighbour.Type != Node.NodeType.Wall)
+            else if (neighbour.Walkable)
             {
                 Map.TruckNode(neighbour.x, neighbour.y);
             }
@@ -77,7 +77,7 @@ namespace Sokoban.Models
         {
             Node neighbour2 = neighbour.getNeighbour(direction);
 
-            if (neighbour2.Type != Node.NodeType.Wall && !neighbour2.ContainsCrate)
+            if (neighbour2.Walkable && !neighbour2.ContainsCrate)
             {
                 neighbour.ContainsCrate = false;
                 neighbour2.ContainsCrate = true;

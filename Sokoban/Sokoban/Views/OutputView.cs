@@ -1,10 +1,29 @@
 ﻿using Sokoban.Models;
+using Sokoban.Models.Nodes;
 using System;
+using System.Collections.Generic;
 
 namespace Sokoban.Views
 {
     class OutputView
     {
+        //new Dictionary<string, int>() {
+        //    { "x", x },
+        //    { "y", y }
+        //}
+
+        private static readonly Dictionary<string, string> displayElements = new Dictionary<string, string>()
+        {
+            { "wall", "█" },
+            { "floor", "." },
+            { "truck", "@" },
+            { "crate", "#" },
+            { "destination", "x" },
+            { "crateOnDestination", "0" },
+            { "brokenFloor", "~" },
+            { "brokenThroughFloor", " " }
+        };
+
         public static void DrawLevel(Maze map, bool won)
         {
             Console.Clear();
@@ -14,41 +33,42 @@ namespace Sokoban.Views
             {
                 for (int y = 0; y < map.Dimensions["y"]; y++)
                 {
-                    if (map.nodes[x][y].Type == Node.NodeType.Wall)
+                    if (map.nodes[x][y] is WallNode)
                     {
-                        Console.Write("█");
+                        Console.Write(displayElements["wall"]);
                     }
-                    else if (map.nodes[x][y].Type == Node.NodeType.Floor)
+                    else if (map.nodes[x][y] is FloorNode)
                     {
                         if (map.nodes[x][y].ContainsTruck)
                         {
-                            Console.Write("@");
+                            Console.Write(displayElements["truck"]);
+                        }
+                        else if (map.nodes[x][y] is DestinationNode && map.nodes[x][y].ContainsCrate)
+                        {
+                            Console.Write(displayElements["crateOnDestination"]);
                         }
                         else if (map.nodes[x][y].ContainsCrate)
                         {
-                            Console.Write("o");
+                            Console.Write(displayElements["crate"]);
                         }
-                        else
+                        else if (map.nodes[x][y] is BrokenFloorNode)
                         {
-                            Console.Write("·");
-                        }
-                    }
-                    else if (map.nodes[x][y].Type == Node.NodeType.Destination)
-                    {
-                        if (map.nodes[x][y].ContainsTruck)
-                        {
-                            Console.Write("@");
-                        }
-                        else
-                        {
-                            if (map.nodes[x][y].ContainsCrate)
+                            if (((BrokenFloorNode)map.nodes[x][y]).IsBroken)
                             {
-                                Console.Write("0");
+                                Console.Write(displayElements["brokenThroughFloor"]);
                             }
                             else
                             {
-                                Console.Write("x");
+                                Console.Write(displayElements["brokenFloor"]);
                             }
+                        }
+                        else if (map.nodes[x][y] is DestinationNode)
+                        {
+                            Console.Write(displayElements["destination"]);
+                        }
+                        else
+                        {
+                            Console.Write(displayElements["floor"]);
                         }
                     }
                     else
@@ -73,7 +93,7 @@ namespace Sokoban.Views
         public static void DrawMenu()
         {
             Console.Clear();
-            Console.WriteLine("┌────────────────────────────────────────────────────┐\n| Welkom bij Sokoban                                 |\n|                                                    |\n| betekenis van de symbolen   |   doel van het spel  |\n|                             |                      |\n| spatie : outerspace         |   duw met de truck   |\n|      █ : muur               |   de krat(ten)       |\n|      · : vloer              |   naar de bestemming |\n|      O : krat               |                      |\n|      0 : krat op bestemming |                      |\n|      x : bestemming         |                      |\n|      @ : truck              |                      |\n└────────────────────────────────────────────────────┘\n> Kies een doolhof (1 - 4), s = stop");
+            Console.WriteLine("┌────────────────────────────────────────────────────┐\n| Welkom bij Sokoban                                 |\n|                                                    |\n| betekenis van de symbolen   |   doel van het spel  |\n|                             |                      |\n| spatie : outerspace         |   duw met de truck   |\n|      █ : muur               |   de krat(ten)       |\n|      · : vloer              |   naar de bestemming |\n|      O : krat               |                      |\n|      0 : krat op bestemming |                      |\n|      x : bestemming         |                      |\n|      @ : truck              |                      |\n└────────────────────────────────────────────────────┘\n> Kies een doolhof (1 - 6), s = stop");
         }
     }
 }

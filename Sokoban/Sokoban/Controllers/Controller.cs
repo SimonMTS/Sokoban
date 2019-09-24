@@ -12,7 +12,7 @@ namespace Sokoban.Controllers
             Undo = 12,
             Invalid = -1,
             MoveNorth = 20, MoveEast = 21, MoveSouth = 22, MoveWest = 23,
-            Level1 = 1, Level2 = 2, Level3 = 3, Level4 = 4
+            Level1 = 1, Level2 = 2, Level3 = 3, Level4 = 4, Level5 = 5, Level6 = 6
         };
 
 

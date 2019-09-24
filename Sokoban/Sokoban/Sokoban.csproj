@@ -47,7 +47,11 @@
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\Maze.cs" />
-    <Compile Include="Models\Node.cs" />
+    <Compile Include="Models\Nodes\BrokenFloorNode.cs" />
+    <Compile Include="Models\Nodes\DestinationNode.cs" />
+    <Compile Include="Models\Nodes\FloorNode.cs" />
+    <Compile Include="Models\Nodes\Node.cs" />
+    <Compile Include="Models\Nodes\WallNode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\InputView.cs" />

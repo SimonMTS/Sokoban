@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sokoban.Models.Nodes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -51,7 +52,23 @@ namespace Sokoban.Models
                 }
             }
 
-            return new MazeState(stateTruck, stateCrates);
+            var stateBrokenFloors = new List<Dictionary<string, int>>();
+            for (int x = 0; x < this.Dimensions["x"]; x++)
+            {
+                for (int y = 0; y < this.Dimensions["y"]; y++)
+                {
+                    if (this.nodes[x][y] is BrokenFloorNode)
+                    {
+                        stateBrokenFloors.Add(new Dictionary<string, int>() {
+                            { "x", x },
+                            { "y", y },
+                            { "TimesWalked", ((BrokenFloorNode)this.nodes[x][y]).TimesWalked}
+                        });
+                    }
+                }
+            }
+
+            return new MazeState(stateTruck, stateCrates, stateBrokenFloors);
         }
 
         public void SetFromState(MazeState state)
@@ -72,6 +89,13 @@ namespace Sokoban.Models
                     {
                         nodes[x][y].ContainsTruck = true;
                     }
+
+                    if (state.BrokenFloors.Exists(BrokenFloor => BrokenFloor["x"] == x && BrokenFloor["y"] == y))
+                    {
+                        ((BrokenFloorNode)nodes[x][y]).TimesWalked = state.BrokenFloors.First(
+                            BrokenFloor => BrokenFloor["x"] == x && BrokenFloor["y"] == y
+                        )["TimesWalked"];
+                    }
                 }
             }
 
@@ -84,11 +108,13 @@ namespace Sokoban.Models
     {
         public readonly Dictionary<string, int> Truck;
         public readonly List<Dictionary<string, int>> Crates;
+        public readonly List<Dictionary<string, int>> BrokenFloors;
 
-        public MazeState(Dictionary<string, int> _truck, List<Dictionary<string, int>> _crates)
+        public MazeState(Dictionary<string, int> _truck, List<Dictionary<string, int>> _crates, List<Dictionary<string, int>> _brokenFloors)
         {
             this.Truck = _truck;
             this.Crates = _crates;
+            this.BrokenFloors = _brokenFloors;
         }
     }
 }

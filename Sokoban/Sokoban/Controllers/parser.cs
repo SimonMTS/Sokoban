@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Sokoban.Models;
+using Sokoban.Models.Nodes;
 
 namespace Sokoban.Controllers
 {
@@ -33,36 +34,28 @@ namespace Sokoban.Controllers
                     switch (ch)
                     {
                         case '#':
-                            nodesRow.Add(new Node(x, y)
-                            {
-                                Type = Node.NodeType.Wall
-                            });
+                            nodesRow.Add(new WallNode(x, y));
                             break;
                         case '.':
-                            nodesRow.Add(new Node(x, y)
-                            {
-                                Type = Node.NodeType.Floor
-                            });
+                            nodesRow.Add(new FloorNode(x, y));
                             break;
                         case 'o':
-                            nodesRow.Add(new Node(x, y)
+                            nodesRow.Add(new FloorNode(x, y)
                             {
-                                Type = Node.NodeType.Floor,
                                 ContainsCrate = true
                             });
                             numberOfCrates++;
                             break;
                         case 'x':
-                            nodesRow.Add(new Node(x, y)
-                            {
-                                Type = Node.NodeType.Destination
-                            });
+                            nodesRow.Add(new DestinationNode(x, y));
                             destinations.Add(new int[2] { x, y });
                             break;
+                        case '~':
+                            nodesRow.Add(new BrokenFloorNode(x, y));
+                            break;
                         case '@':
-                            nodesRow.Add(new Node(x, y)
+                            nodesRow.Add(new FloorNode(x, y)
                             {
-                                Type = Node.NodeType.Floor,
                                 ContainsTruck = true
                             });
 
@@ -70,7 +63,7 @@ namespace Sokoban.Controllers
                             truckY = y;
                             break;
                         default:
-                            nodesRow.Add(new Node(x, y));
+                            nodesRow.Add(new WallNode(x, y));
                             break;
                     }
 
