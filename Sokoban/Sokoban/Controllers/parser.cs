@@ -14,6 +14,7 @@ namespace Sokoban.Controllers
         {
             List<List<Node>> nodesList = new List<List<Node>>();
             List<int[]> destinations = new List<int[]>();
+            int numberOfCrates = 0;
 
             int x = 0;
             int y = 0;
@@ -49,6 +50,7 @@ namespace Sokoban.Controllers
                                 Type = Node.NodeType.Floor,
                                 ContainsCrate = true
                             });
+                            numberOfCrates++;
                             break;
                         case 'x':
                             nodesRow.Add(new Node(x, y)
@@ -95,15 +97,16 @@ namespace Sokoban.Controllers
                 nodes = nodesList.Select(l => l.ToArray()).ToArray(),
                 Dimensions = new Dictionary<string, int>() {
                     { "x", x },
-                    { "y", y },
+                    { "y", y }
                 },
 
                 Truck = new Dictionary<string, int>() {
                     { "x", truckX },
-                    { "y", truckY },
+                    { "y", truckY }
                 },
 
-                destinations = destinations.ToArray()
+                destinations = destinations.ToArray(),
+                numberOfCrates = numberOfCrates
             };
 
             return map;

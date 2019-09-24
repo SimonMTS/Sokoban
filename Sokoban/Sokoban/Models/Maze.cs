@@ -12,6 +12,7 @@ namespace Sokoban.Models
         public Dictionary<string, int> Dimensions;
 
         public int[][] destinations;
+        public int numberOfCrates;
 
         public Dictionary<string, int> Truck;
         public Node TruckNode()
