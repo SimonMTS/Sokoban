@@ -1,72 +1,86 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Sokoban.Controllers.Controller">
-    <Position X="5.25" Y="0.5" Width="1.5" />
-    <NestedTypes>
-      <Enum Name="Sokoban.Controllers.Controller.GameAction" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Controllers\Controller.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Enum>
-    </NestedTypes>
+  <Class Name="Sokoban.Controllers.Controller" Collapsed="true">
+    <Position X="4" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Controllers\Controller.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Sokoban.Controllers.Parser">
-    <Position X="5.25" Y="2.25" Width="1.5" />
+  <Class Name="Sokoban.Controllers.Parser" Collapsed="true">
+    <Position X="6.25" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
       <FileName>Controllers\Parser.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Sokoban.Models.Game">
-    <Position X="3.5" Y="0.5" Width="1.5" />
+  <Class Name="Sokoban.Models.Nodes.BrokenFloorNode" Collapsed="true">
+    <Position X="6.25" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAJAAAAAAAAAAAAAAAAAAAAAAAEACAAAAAAA=</HashCode>
+      <HashCode>AAAAIAAAAAAAAACAAAAAAAgAAAAAQAAAAAkAAAAAAAQ=</HashCode>
+      <FileName>Models\Nodes\BrokenFloorNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sokoban.Models.Nodes.DestinationNode" Collapsed="true">
+    <Position X="4.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Models\Nodes\DestinationNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sokoban.Models.Nodes.FloorNode" Collapsed="true">
+    <Position X="4.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Models\Nodes\FloorNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sokoban.Models.Nodes.WallNode" Collapsed="true">
+    <Position X="2.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Models\Nodes\WallNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sokoban.Models.Node" Collapsed="true">
+    <Position X="3.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAlgACAAABQ=</HashCode>
+      <FileName>Models\Nodes\Node.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sokoban.Models.Game" Collapsed="true">
+    <Position X="4" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAABAAJAAAAAAAAAAAAAAAAAAAAAAAEACAAAAAAA=</HashCode>
       <FileName>Models\Game.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Sokoban.Models.Node">
-    <Position X="0.5" Y="0.5" Width="1.5" />
-    <NestedTypes>
-      <Enum Name="Sokoban.Models.Node.NodeType" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Models\Node.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Enum>
-    </NestedTypes>
+  <Class Name="Sokoban.Models.Maze" Collapsed="true">
+    <Position X="3.5" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAQFgACAAABQ=</HashCode>
-      <FileName>Models\Node.cs</FileName>
+      <HashCode>AAhAAEAAAEgAAAABAAAAAAIAAAAAAAAAAAAABAAAIAA=</HashCode>
+      <FileName>Models\Maze.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Sokoban.Program" Collapsed="true">
-    <Position X="3" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
-      <FileName>Program.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Sokoban.Views.InputView">
-    <Position X="7" Y="0.5" Width="1.5" />
+  <Class Name="Sokoban.Views.InputView" Collapsed="true">
+    <Position X="0.5" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgEAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\InputView.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Sokoban.Views.OutputView">
-    <Position X="7" Y="2.25" Width="1.5" />
+  <Class Name="Sokoban.Views.OutputView" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAACAAAAAAAAAAAAAIAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>Views\OutputView.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Struct Name="Sokoban.Models.Maze">
-    <Position X="2" Y="0.5" Width="1.5" />
+  <Struct Name="Sokoban.Models.MazeState" Collapsed="true">
+    <Position X="5.25" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAgAAAAAAEAAAAABAAAAAAIAAAAAAAAAAAAABAAAIAA=</HashCode>
+      <HashCode>AAAAAAAAAEAAABAAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
       <FileName>Models\Maze.cs</FileName>
     </TypeIdentifier>
   </Struct>

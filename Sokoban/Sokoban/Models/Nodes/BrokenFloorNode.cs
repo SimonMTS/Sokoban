@@ -8,6 +8,32 @@ namespace Sokoban.Models.Nodes
 {
     class BrokenFloorNode : FloorNode
     {
+        public override char CharRepresentation
+        {
+            get
+            {
+                if (ContainsTruck)
+                {
+                    return '@';
+                }
+                else if (ContainsCrate)
+                {
+                    return '#';
+                }
+                else
+                {
+                    if (IsBroken)
+                    {
+                        return ' ';
+                    }
+                    else
+                    {
+                        return '~';
+                    }
+                }
+            }
+        }
+
         public override bool Walkable { get { return true; } }
 
         private bool _ContainsTruck = false;

@@ -4,6 +4,8 @@ namespace Sokoban.Models
 {
     abstract class Node
     {
+        public virtual char CharRepresentation { get { return ' '; } }
+
         public virtual bool Walkable { get { return false; } }
         
         public int x;
