@@ -1,4 +1,5 @@
-﻿using Sokoban.Models.Nodes;
+﻿using Sokoban.Models.Movables;
+using Sokoban.Models.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,29 +14,20 @@ namespace Sokoban.Models
         public Dictionary<string, int> Dimensions;
 
         public int[][] destinations;
-        public int numberOfCrates;
 
-        public Dictionary<string, int> Truck;
-        public Node TruckNode()
-        {
-            return this.nodes[this.Truck["x"]][this.Truck["y"]];
-        }
-
-        public void TruckNode(int x, int y)
-        {
-            this.nodes[this.Truck["x"]][this.Truck["y"]].ContainsTruck = false;
-
-            this.nodes[x][y].ContainsTruck = true;
-            this.Truck["x"] = x;
-            this.Truck["y"] = y;
-        }
+        public Truck[] Trucks;
+        public Crate[] Crates;
 
         public MazeState GetState()
         {
-            var stateTruck = new Dictionary<string, int>() {
-                { "x", this.Truck["x"] },
-                { "y", this.Truck["y"] }
-            };
+            var stateTrucks = new List<Dictionary<string, int>>();
+            for (int i = 0; i < this.Trucks.Length; i++)
+            {
+                stateTrucks.Add(new Dictionary<string, int>() {
+                    { "x", this.Trucks[i].x },
+                    { "y", this.Trucks[i].y }
+                });
+            }
 
             var stateCrates = new List<Dictionary<string, int>>();
             for (int x = 0; x < this.Dimensions["x"]; x++)
@@ -62,13 +54,13 @@ namespace Sokoban.Models
                         stateBrokenFloors.Add(new Dictionary<string, int>() {
                             { "x", x },
                             { "y", y },
-                            { "TimesWalked", ((BrokenFloorNode)this.nodes[x][y]).TimesWalked}
+                            { "TimesWalked", ((BrokenFloorNode)this.nodes[x][y]).TimesWalked }
                         });
                     }
                 }
             }
 
-            return new MazeState(stateTruck, stateCrates, stateBrokenFloors);
+            return new MazeState(stateTrucks.ToArray(), stateCrates.ToArray(), stateBrokenFloors);
         }
 
         public void SetFromState(MazeState state)
@@ -77,19 +69,6 @@ namespace Sokoban.Models
             {
                 for (int y = 0; y < this.Dimensions["y"]; y++)
                 {
-                    nodes[x][y].ContainsCrate = false;
-                    nodes[x][y].ContainsTruck = false;
-
-                    if (state.Crates.Exists(crate => crate["x"] == x && crate["y"] == y))
-                    {
-                        nodes[x][y].ContainsCrate = true;
-                    }
-
-                    if (x == state.Truck["x"] && y == state.Truck["y"])
-                    {
-                        nodes[x][y].ContainsTruck = true;
-                    }
-
                     if (state.BrokenFloors.Exists(BrokenFloor => BrokenFloor["x"] == x && BrokenFloor["y"] == y))
                     {
                         ((BrokenFloorNode)nodes[x][y]).TimesWalked = state.BrokenFloors.First(
@@ -99,20 +78,29 @@ namespace Sokoban.Models
                 }
             }
 
-            this.Truck["x"] = state.Truck["x"];
-            this.Truck["y"] = state.Truck["y"];
+            for (int i = 0; i < state.Trucks.Length; i++)
+            {
+                this.Trucks[i].x = state.Trucks[i]["x"];
+                this.Trucks[i].y = state.Trucks[i]["y"];
+            }
+
+            for (int i = 0; i < state.Crates.Length; i++)
+            {
+                this.Crates[i].x = state.Crates[i]["x"];
+                this.Crates[i].y = state.Crates[i]["y"];
+            }
         }
     }
 
     public struct MazeState
     {
-        public readonly Dictionary<string, int> Truck;
-        public readonly List<Dictionary<string, int>> Crates;
+        public readonly Dictionary<string, int>[] Trucks;
+        public readonly Dictionary<string, int>[] Crates;
         public readonly List<Dictionary<string, int>> BrokenFloors;
 
-        public MazeState(Dictionary<string, int> _truck, List<Dictionary<string, int>> _crates, List<Dictionary<string, int>> _brokenFloors)
+        public MazeState(Dictionary<string, int>[] _trucks, Dictionary<string, int>[] _crates, List<Dictionary<string, int>> _brokenFloors)
         {
-            this.Truck = _truck;
+            this.Trucks = _trucks;
             this.Crates = _crates;
             this.BrokenFloors = _brokenFloors;
         }

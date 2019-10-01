@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Sokoban.Controllers;
+using Sokoban.Models.Nodes;
 using static Sokoban.Controllers.Controller;
 namespace Sokoban.Models
 {
@@ -26,7 +27,18 @@ namespace Sokoban.Models
                             Map.nodes[x][y - 1]
                         });
                     }
+                    Map.nodes[x][y].Map = Map;
                 }
+            }
+
+            for (int i = 0; i < Map.Trucks.Length; i++)
+            {
+                Map.Trucks[i].Map = Map;
+            }
+
+            for (int i = 0; i < Map.Crates.Length; i++)
+            {
+                Map.Crates[i].Map = Map;
             }
 
             MapHistory.Add(Map.GetState());
@@ -61,7 +73,7 @@ namespace Sokoban.Models
 
         private void Move(GameAction direction)
         {
-            Node neighbour = Map.TruckNode().getNeighbour(direction);
+            Node neighbour = Map.Trucks[0].GetNode().getNeighbour(direction);
 
             if (neighbour.Walkable && neighbour.ContainsCrate)
             {
@@ -69,7 +81,7 @@ namespace Sokoban.Models
             }
             else if (neighbour.Walkable)
             {
-                Map.TruckNode(neighbour.x, neighbour.y);
+                Map.Trucks[0].Move(direction);
             }
         }
 
@@ -79,10 +91,9 @@ namespace Sokoban.Models
 
             if (neighbour2.Walkable && !neighbour2.ContainsCrate)
             {
-                neighbour.ContainsCrate = false;
-                neighbour2.ContainsCrate = true;
+                neighbour.Contains().Crate.Move(direction);
 
-                Map.TruckNode(neighbour.x, neighbour.y);
+                Map.Trucks[0].Move(direction);
             }
         }
 
@@ -98,7 +109,7 @@ namespace Sokoban.Models
                 }
             }
 
-            return Map.numberOfCrates == cratesOnDestination;
+            return Map.Crates.Length == cratesOnDestination;
         }
     }
 }

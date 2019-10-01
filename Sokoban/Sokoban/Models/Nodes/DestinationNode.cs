@@ -26,8 +26,6 @@ namespace Sokoban.Models.Nodes
             }
         }
 
-        public override bool Walkable { get { return true; } }
-
         public DestinationNode(int _x, int _y) : base(_x, _y)
         {
         }

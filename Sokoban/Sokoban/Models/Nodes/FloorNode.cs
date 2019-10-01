@@ -11,13 +11,11 @@ namespace Sokoban.Models.Nodes
         public override char CharRepresentation {
             get
             {
-                if (ContainsTruck)
+                var containsMovable = CharContainsMovable();
+
+                if (containsMovable.Truth)
                 {
-                    return '@';
-                }
-                else if (ContainsCrate)
-                {
-                    return '#';
+                    return containsMovable.Value;
                 }
                 else
                 {
@@ -27,7 +25,7 @@ namespace Sokoban.Models.Nodes
             }
         }
 
-        public override bool Walkable { get { return true; } }
+        public override bool Walkable { get { return !ContainsTruck; } }
 
         public FloorNode(int _x, int _y) : base(_x, _y)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Sokoban.Models;
+using Sokoban.Models.Movables;
 using Sokoban.Models.Nodes;
 
 namespace Sokoban.Controllers
@@ -15,13 +16,13 @@ namespace Sokoban.Controllers
         {
             List<List<Node>> nodesList = new List<List<Node>>();
             List<int[]> destinations = new List<int[]>();
-            int numberOfCrates = 0;
 
             int x = 0;
             int y = 0;
 
-            int truckX = 0;
-            int truckY = 0;
+            Truck PlayerTruck = null;
+            List<Truck> Trucks = new List<Truck>();
+            List<Crate> Crates = new List<Crate>();
 
             {
                 List<Node> nodesRow = new List<Node>();
@@ -40,11 +41,13 @@ namespace Sokoban.Controllers
                             nodesRow.Add(new FloorNode(x, y));
                             break;
                         case 'o':
-                            nodesRow.Add(new FloorNode(x, y)
+                            nodesRow.Add(new FloorNode(x, y));
+
+                            Crates.Add(new Crate()
                             {
-                                ContainsCrate = true
+                                x = x,
+                                y = y
                             });
-                            numberOfCrates++;
                             break;
                         case 'x':
                             nodesRow.Add(new DestinationNode(x, y));
@@ -54,13 +57,22 @@ namespace Sokoban.Controllers
                             nodesRow.Add(new BrokenFloorNode(x, y));
                             break;
                         case '@':
-                            nodesRow.Add(new FloorNode(x, y)
-                            {
-                                ContainsTruck = true
-                            });
+                            nodesRow.Add(new FloorNode(x, y));
 
-                            truckX = x;
-                            truckY = y;
+                            PlayerTruck = new Truck()
+                            {
+                                x = x,
+                                y = y
+                            };
+                            break;
+                        case '$':
+                            nodesRow.Add(new FloorNode(x, y));
+
+                            Trucks.Add(new AITruck()
+                            {
+                                x = x,
+                                y = y
+                            });
                             break;
                         default:
                             nodesRow.Add(new WallNode(x, y));
@@ -83,6 +95,8 @@ namespace Sokoban.Controllers
                 reader.Dispose();
             }
 
+            Trucks.Insert(0, PlayerTruck);
+
             Maze map = new Maze
             {
                 mapNumber = level,
@@ -93,13 +107,9 @@ namespace Sokoban.Controllers
                     { "y", y }
                 },
 
-                Truck = new Dictionary<string, int>() {
-                    { "x", truckX },
-                    { "y", truckY }
-                },
-
-                destinations = destinations.ToArray(),
-                numberOfCrates = numberOfCrates
+                Trucks = Trucks.ToArray(),
+                Crates = Crates.ToArray(),
+                destinations = destinations.ToArray()
             };
 
             return map;
