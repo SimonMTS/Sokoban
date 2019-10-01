@@ -22,5 +22,19 @@ namespace Sokoban.Models.Movables
                 }
             }
         }
+
+        public bool TryMove(GameAction direction)
+        {
+            Node neighbour = this.GetNode().getNeighbour(direction);
+
+            if (neighbour.Walkable && !neighbour.ContainsCrate && !neighbour.ContainsTruck)
+            {
+                this.Move(direction);
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }
