@@ -12,13 +12,11 @@ namespace Sokoban.Models.Nodes
         {
             get
             {
-                if (ContainsTruck)
+                var containsMovable = CharContainsMovable();
+
+                if (containsMovable.Truth)
                 {
-                    return '@';
-                }
-                else if (ContainsCrate)
-                {
-                    return '#';
+                    return containsMovable.Value;
                 }
                 else
                 {

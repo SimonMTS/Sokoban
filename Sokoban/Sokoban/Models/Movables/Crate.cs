@@ -18,7 +18,7 @@ namespace Sokoban.Models.Movables
                 }
                 else
                 {
-                    return 'o';
+                    return '#';
                 }
             }
         }

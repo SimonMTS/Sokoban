@@ -11,13 +11,11 @@ namespace Sokoban.Models.Nodes
         public override char CharRepresentation {
             get
             {
-                if (ContainsTruck)
+                var containsMovable = CharContainsMovable();
+
+                if (containsMovable.Truth)
                 {
-                    return '@';
-                }
-                else if (ContainsCrate)
-                {
-                    return '0';
+                    return containsMovable.Value;
                 }
                 else
                 {
