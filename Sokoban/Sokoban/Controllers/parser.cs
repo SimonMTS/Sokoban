@@ -106,7 +106,7 @@ namespace Sokoban.Controllers
 
             Trucks.Insert(0, PlayerTruck);
 
-            return new Maze
+            Maze map = new Maze
             {
                 mapNumber = level,
 
@@ -120,6 +120,22 @@ namespace Sokoban.Controllers
                 Crates = Crates.ToArray(),
                 destinations = destinations.ToArray()
             };
+
+            // "In een doolhof… zijn evenveel bestemmingen als kisten."
+            while (map.destinations.Length > map.Crates.Length)
+            {
+                // there are more destinations then crates, so we'll pick one destination and remove it.
+                int RandomNumber = (new Random()).Next(map.destinations.Length - 1);
+                int[] dest = map.destinations[RandomNumber];
+
+                // remove from destinations array
+                map.destinations = map.destinations.Where(d => d[0] != dest[0] || d[1] != dest[1]).ToArray();
+
+                // replace in nodes array
+                map.nodes[dest[0]][dest[1]] = new FloorNode(dest[0], dest[1]);
+            }
+
+            return map;
         }
 
         private static Maze SetMazeReferences(Maze map)

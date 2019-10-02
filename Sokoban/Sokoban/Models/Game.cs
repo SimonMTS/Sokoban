@@ -52,17 +52,15 @@ namespace Sokoban.Models
 
         public bool HasWon()
         {
-            int cratesOnDestination = 0;
-
             foreach (int[] dest in Map.destinations)
             {
-                if (Map.nodes[dest[0]][dest[1]].ContainsCrate)
+                if (!Map.nodes[dest[0]][dest[1]].ContainsCrate)
                 {
-                    cratesOnDestination++;
+                    return false;
                 }
             }
 
-            return Map.Crates.Length == cratesOnDestination;
+            return true;
         }
     }
 }

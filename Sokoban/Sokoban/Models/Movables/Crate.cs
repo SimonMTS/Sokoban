@@ -31,6 +31,12 @@ namespace Sokoban.Models.Movables
             {
                 this.Move(direction);
 
+                if (this.GetNode() is BrokenFloorNode && ((BrokenFloorNode)this.GetNode()).IsBroken)
+                {
+                    x = 0;
+                    y = 0;
+                }
+
                 return true;
             }
 
