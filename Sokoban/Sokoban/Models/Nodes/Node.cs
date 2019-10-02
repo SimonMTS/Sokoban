@@ -8,22 +8,6 @@ namespace Sokoban.Models.Nodes
     {
         public virtual char CharRepresentation { get { return ' '; } }
 
-        protected (bool Truth, char Value) CharContainsMovable()
-        {
-            if (ContainsTruck)
-            {
-                return (true, Contains().Truck.CharRepresentation);
-            }
-            else if (ContainsCrate)
-            {
-                return (true, Contains().Crate.CharRepresentation);
-            }
-            else
-            {
-                return (false, ' ');
-            }
-        }
-
         public virtual bool Walkable { get { return false; } }
         
         public int x;
@@ -43,6 +27,26 @@ namespace Sokoban.Models.Nodes
             }
         }
 
+        private Node[] neighbours = new Node[4];
+
+
+        public Node(int _x, int _y)
+        {
+            x = _x;
+            y = _y;
+        }
+
+
+        public Node getNeighbour(GameAction direction)
+        {
+            return neighbours[(int)direction - 20];
+        }
+
+        public void setNeighbours(Node[] _neighbours)
+        {
+            neighbours = _neighbours;
+        }
+
         public (Truck Truck, Crate Crate) Contains()
         {
             Truck t = Array.Find(Map.Trucks,
@@ -56,22 +60,20 @@ namespace Sokoban.Models.Nodes
             return (Truck: t, Crate: c);
         }
 
-        private Node[] neighbours = new Node[4];
-
-        public Node getNeighbour(GameAction direction)
+        protected (bool Truth, char Value) CharContainsMovable()
         {
-            return neighbours[(int)direction - 20];
-        }
-
-        public void setNeighbours(Node[] _neighbours)
-        {
-            neighbours = _neighbours;
-        }
-
-        public Node(int _x, int _y)
-        {
-            x = _x;
-            y = _y;
+            if (ContainsTruck)
+            {
+                return (true, Contains().Truck.CharRepresentation);
+            }
+            else if (ContainsCrate)
+            {
+                return (true, Contains().Crate.CharRepresentation);
+            }
+            else
+            {
+                return (false, ' ');
+            }
         }
     }
 }

@@ -41,12 +41,12 @@ namespace Sokoban.Models
             {
                 Map.Trucks[0].DoAction(action);
 
-                MapHistory.Add(Map.GetState());
-            }
+                for (int i = 1; i < Map.Trucks.Length; i++)
+                {
+                    ((AITruck)Map.Trucks[i]).DoAction();
+                }
 
-            for (int i = 1; i < Map.Trucks.Length; i++)
-            {
-                ((AITruck)Map.Trucks[i]).DoAction();
+                MapHistory.Add(Map.GetState());
             }
         }
 

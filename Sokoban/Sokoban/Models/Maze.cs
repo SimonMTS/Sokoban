@@ -25,7 +25,8 @@ namespace Sokoban.Models
             {
                 stateTrucks.Add(new Dictionary<string, int>() {
                     { "x", this.Trucks[i].x },
-                    { "y", this.Trucks[i].y }
+                    { "y", this.Trucks[i].y },
+                    { "awake", (this.Trucks[i] is AITruck ? (((AITruck)this.Trucks[i]).Awake ? 1 : 0) : -1) }
                 });
             }
 
@@ -82,6 +83,11 @@ namespace Sokoban.Models
             {
                 this.Trucks[i].x = state.Trucks[i]["x"];
                 this.Trucks[i].y = state.Trucks[i]["y"];
+
+                if (this.Trucks[i] is AITruck)
+                {
+                    ((AITruck)this.Trucks[i]).Awake = (state.Trucks[i]["awake"] == 1 ? true : false);
+                }
             }
 
             for (int i = 0; i < state.Crates.Length; i++)

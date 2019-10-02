@@ -12,7 +12,7 @@ namespace Sokoban.Models.Movables
     {
         public override char CharRepresentation { get { return (Awake ? '$' : 'Z'); } }
 
-        private bool Awake = false;
+        public bool Awake = false;
 
         public void WakeUp()
         {
